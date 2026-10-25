@@ -22,11 +22,12 @@
         app:layout_constraintRight_toRightOf="parent" />
 
     <Button
+        style="@style/Widget.Material3.Button.TextButton"
         android:id="@+id/btnAddScaleBaseMinus"
         android:layout_width="48dp"
         android:layout_height="wrap_content"
-        android:text="-"
-        android:layout_marginLeft="16dp"
+        android:text="@string/minus"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:onClick="btnClick"
         app:layout_constraintTop_toBottomOf="@id/tvNotice"
@@ -43,21 +44,23 @@
         app:layout_constraintTop_toTopOf="@id/btnAddScaleBaseMinus" />
 
     <Button
+        style="@style/Widget.Material3.Button.TextButton"
         android:id="@+id/btnAddScaleBasePlus"
         android:layout_width="48dp"
         android:layout_height="wrap_content"
-        android:text="+"
-        android:layout_marginRight="16dp"
+        android:text="@string/plus"
+        android:layout_marginEnd="16dp"
         android:onClick="btnClick"
         app:layout_constraintTop_toTopOf="@id/btnAddScaleBaseMinus"
         app:layout_constraintRight_toRightOf="parent" />
 
     <Button
+        style="@style/Widget.Material3.Button.TextButton"
         android:id="@+id/btnAddScaleHorizontalMinus"
         android:layout_width="48dp"
         android:layout_height="wrap_content"
-        android:text="-"
-        android:layout_marginLeft="16dp"
+        android:text="@string/minus"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:onClick="btnClick"
         app:layout_constraintTop_toBottomOf="@id/btnAddScaleBaseMinus"
@@ -74,21 +77,23 @@
         app:layout_constraintTop_toTopOf="@id/btnAddScaleHorizontalMinus" />
 
     <Button
+        style="@style/Widget.Material3.Button.TextButton"
         android:id="@+id/btnAddScaleHorizontalPlus"
         android:layout_width="48dp"
         android:layout_height="wrap_content"
-        android:text="+"
-        android:layout_marginRight="16dp"
+        android:text="@string/plus"
+        android:layout_marginEnd="16dp"
         android:onClick="btnClick"
         app:layout_constraintTop_toTopOf="@id/btnAddScaleHorizontalMinus"
         app:layout_constraintRight_toRightOf="parent" />
 
     <Button
+        style="@style/Widget.Material3.Button.TextButton"
         android:id="@+id/btnShiftVerticalMinus"
         android:layout_width="48dp"
         android:layout_height="wrap_content"
-        android:text="-"
-        android:layout_marginLeft="16dp"
+        android:text="@string/minus"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:onClick="btnClick"
         app:layout_constraintTop_toBottomOf="@id/btnAddScaleHorizontalMinus"
@@ -105,21 +110,23 @@
         app:layout_constraintTop_toTopOf="@id/btnShiftVerticalMinus" />
 
     <Button
+        style="@style/Widget.Material3.Button.TextButton"
         android:id="@+id/btnShiftVerticalPlus"
         android:layout_width="48dp"
         android:layout_height="wrap_content"
-        android:text="+"
-        android:layout_marginRight="16dp"
+        android:text="@string/plus"
+        android:layout_marginEnd="16dp"
         android:onClick="btnClick"
         app:layout_constraintTop_toTopOf="@id/btnShiftVerticalMinus"
         app:layout_constraintRight_toRightOf="parent" />
 
     <Button
+        style="@style/Widget.Material3.Button.TextButton"
         android:id="@+id/btnShiftHorizontalMinus"
         android:layout_width="48dp"
         android:layout_height="wrap_content"
-        android:text="-"
-        android:layout_marginLeft="16dp"
+        android:text="@string/minus"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:onClick="btnClick"
         app:layout_constraintTop_toBottomOf="@id/btnShiftVerticalMinus"
@@ -136,21 +143,23 @@
         app:layout_constraintTop_toTopOf="@id/btnShiftHorizontalMinus" />
 
     <Button
+        style="@style/Widget.Material3.Button.TextButton"
         android:id="@+id/btnShiftHorizontalPlus"
         android:layout_width="48dp"
         android:layout_height="wrap_content"
-        android:text="+"
-        android:layout_marginRight="16dp"
+        android:text="@string/plus"
+        android:layout_marginEnd="16dp"
         android:onClick="btnClick"
         app:layout_constraintTop_toTopOf="@id/btnShiftHorizontalMinus"
         app:layout_constraintRight_toRightOf="parent" />
 
     <Button
+        style="@style/Widget.Material3.Button.TextButton"
         android:id="@+id/btnAddThicknessMinus"
         android:layout_width="48dp"
         android:layout_height="wrap_content"
-        android:text="-"
-        android:layout_marginLeft="16dp"
+        android:text="@string/minus"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:onClick="btnClick"
         app:layout_constraintTop_toBottomOf="@id/btnShiftHorizontalMinus"
@@ -167,21 +176,23 @@
         app:layout_constraintTop_toTopOf="@id/btnAddThicknessMinus" />
 
     <Button
+        style="@style/Widget.Material3.Button.TextButton"
         android:id="@+id/btnAddThicknessPlus"
         android:layout_width="48dp"
         android:layout_height="wrap_content"
-        android:text="+"
-        android:layout_marginRight="16dp"
+        android:text="@string/plus"
+        android:layout_marginEnd="16dp"
         android:onClick="btnClick"
         app:layout_constraintTop_toTopOf="@id/btnAddThicknessMinus"
         app:layout_constraintRight_toRightOf="parent" />
 
     <Button
+        style="@style/Widget.Material3.Button.TextButton"
         android:id="@+id/btnSpeedMinus"
         android:layout_width="48dp"
         android:layout_height="wrap_content"
-        android:text="-"
-        android:layout_marginLeft="16dp"
+        android:text="@string/minus"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:onClick="btnClick"
         app:layout_constraintTop_toBottomOf="@id/btnAddThicknessMinus"
@@ -198,11 +209,12 @@
         app:layout_constraintTop_toTopOf="@id/btnSpeedMinus" />
 
     <Button
+        style="@style/Widget.Material3.Button.TextButton"
         android:id="@+id/btnSpeedPlus"
         android:layout_width="48dp"
         android:layout_height="wrap_content"
-        android:text="+"
-        android:layout_marginRight="16dp"
+        android:text="@string/plus"
+        android:layout_marginEnd="16dp"
         android:onClick="btnClick"
         app:layout_constraintTop_toTopOf="@id/btnSpeedMinus"
         app:layout_constraintRight_toRightOf="parent" />

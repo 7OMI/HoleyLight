@@ -80,6 +80,7 @@ import eu.chainfire.holeylight.misc.Slog;
 public class MainActivity extends BaseActivity implements Settings.OnSettingsChangedListener {
     private static final int LOGCAT_DUMP_REQUEST_CODE = 12345;
     private static final int PERMISSION_READ_PHONE_STATE_CODE = 12346;
+    private static final int PERMISSION_NOTIFICATION_CODE = 12347;
 
     private Handler handler = null;
     private Settings settings = null;
@@ -179,6 +180,23 @@ public class MainActivity extends BaseActivity implements Settings.OnSettingsCha
         String device = String.format("%s / %s / %s", Build.BRAND, Build.MANUFACTURER, Build.DEVICE);
 
         switch (Permissions.detect(this, true)) {
+            case POST_NOTIFICATIONS:
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                    (currentDialog = newAlert(false)
+                            .setTitle(getString(R.string.permission_required))
+                            .setMessage(Html.fromHtml(getString(R.string.permission_notifications)))
+                            .setPositiveButton(android.R.string.ok, (dialog, which) -> {
+
+                                ActivityCompat.requestPermissions(
+                                        MainActivity.this,
+                                        new String[]{Manifest.permission.POST_NOTIFICATIONS},
+                                        PERMISSION_NOTIFICATION_CODE
+                                );
+                            })
+                            .show()).setCanceledOnTouchOutside(false);
+                    break;
+                }
+                break;
             case DEVICE_SUPPORT:
                 (currentDialog = newAlert(!Settings.DEBUG)
                         .setTitle(R.string.error)

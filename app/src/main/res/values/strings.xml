@@ -341,4 +341,7 @@
 
     <!-- v1.02 -->
     <string name="permission_read_phone_state"><![CDATA[In the next popup, please allow <b>Holey Light</b> to manage phone calls. This is required to be able to detect when a phone call is active and prevent our overlay from interfering.<br><br><b>Important:</b> If you just upgraded this app (or your phone), you must <b>reboot</b> your device after granting the permission or phone call detection will not work.]]></string>
+    <string name="minus">-</string>
+    <string name="plus">+</string>
+    <string name="app">app</string>
 </resources>

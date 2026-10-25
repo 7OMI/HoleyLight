@@ -1,13 +1,23 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 22
+    namespace 'eu.chainfire.holeylight.aodhelper'
+    signingConfigs {
+        debug {
+            storeFile file('C:\\Users\\Fissy\\Desktop\\apktool\\tools\\keystore\\Retail.jks')
+            storePassword 'Qpalzm1784!'
+            keyAlias 'Retail'
+            keyPassword 'Qpalzm1784!'
+        }
+    }
+    compileSdk 33
     defaultConfig {
         applicationId "eu.chainfire.holeylight.aodhelper"
         minSdkVersion 22
-        targetSdkVersion 22
+        targetSdk 33
         versionCode 54
         versionName "0.54"
+        signingConfig signingConfigs.debug
     }
     buildTypes {
         release {

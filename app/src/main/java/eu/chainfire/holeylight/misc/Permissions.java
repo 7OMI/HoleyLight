@@ -33,7 +33,7 @@ import static android.content.Context.POWER_SERVICE;
 public class Permissions {
     private static final int NOTIFICATION_ID_PERMISSIONS = 2001;
 
-    public enum Needed { DEVICE_SUPPORT, DEVICE_OFFICIAL_SUPPORT, UNHIDE_NOTCH, COMPANION_DEVICE, READ_PHONE_STATE, NOTIFICATION_SERVICE, ACCESSIBILITY_SERVICE, BATTERY_OPTIMIZATION_EXEMPTION, AOD_HELPER_UPDATE, AOD_HELPER_PERMISSIONS, NONE }
+    public enum Needed { DEVICE_SUPPORT, POST_NOTIFICATIONS, DEVICE_OFFICIAL_SUPPORT, UNHIDE_NOTCH, COMPANION_DEVICE, READ_PHONE_STATE, NOTIFICATION_SERVICE, ACCESSIBILITY_SERVICE, BATTERY_OPTIMIZATION_EXEMPTION, AOD_HELPER_UPDATE, AOD_HELPER_PERMISSIONS, NONE }
 
     public static boolean allowAODHelperUpdateNeeded = true;
     public static boolean allowAODHelperPermissionsNeeded = true;
@@ -79,6 +79,8 @@ public class Permissions {
             return Needed.UNHIDE_NOTCH;
         } else if (((CompanionDeviceManager)context.getSystemService(COMPANION_DEVICE_SERVICE)).getAssociations().size() == 0) {
             return Needed.COMPANION_DEVICE;
+        } else if (ContextCompat.checkSelfPermission(context, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
+            return Needed.POST_NOTIFICATIONS;
         } else if (ContextCompat.checkSelfPermission(context, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
             return Needed.READ_PHONE_STATE;
         } else if (!NotificationManagerCompat.getEnabledListenerPackages(context).contains(context.getPackageName())) {

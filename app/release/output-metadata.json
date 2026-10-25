@@ -1,0 +1,20 @@
+{
+  "version": 3,
+  "artifactType": {
+    "type": "APK",
+    "kind": "Directory"
+  },
+  "applicationId": "eu.chainfire.holeylight",
+  "variantName": "release",
+  "elements": [
+    {
+      "type": "SINGLE",
+      "filters": [],
+      "attributes": [],
+      "versionCode": 102,
+      "versionName": "1.02",
+      "outputFile": "HoleyLight-v1.02-20221215140154.apk"
+    }
+  ],
+  "elementType": "File"
+}

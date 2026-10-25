@@ -5,15 +5,14 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <SeekBar
+    <com.google.android.material.slider.Slider
         android:id="@+id/timeout_linger_seek"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
         android:layout_margin="8dp"
         android:layout_marginBottom="4dp"
-        style="@style/Widget.AppCompat.SeekBar.Discrete"
-        android:progressTint="#00000000" />
+        style="@style/Widget.Material3.Slider" />
 
     <TextView
         android:id="@+id/timeout_linger_value"
@@ -21,6 +20,5 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
-        android:text=""
         android:gravity="center_horizontal" />
 </LinearLayout>

@@ -33,12 +33,12 @@ import android.util.TypedValue;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.ListView;
-import android.widget.SeekBar;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.Locale;
 
+import androidx.annotation.NonNull;
 import androidx.preference.CheckBoxPreference;
 import androidx.preference.ListPreference;
 import androidx.preference.Preference;
@@ -46,6 +46,9 @@ import androidx.preference.PreferenceCategory;
 import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.PreferenceManager;
 import androidx.preference.PreferenceScreen;
+
+import com.google.android.material.slider.Slider;
+
 import eu.chainfire.holeylight.BuildConfig;
 import eu.chainfire.holeylight.R;
 import eu.chainfire.holeylight.animation.SpritePlayer;
@@ -168,7 +171,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
         return -1;
     }
 
-    private class TimeoutHelper {
+    private static class TimeoutHelper {
         public TimeoutHelper() { }
 
         public void save() { }
@@ -191,7 +194,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
             2 * 60 * 60 * 1000
         };
 
-        private final SeekBar seekBar;
+        private final Slider seekBar;
         private final TextView textValue;
         private final int mode;
         private AlertDialog base;
@@ -202,22 +205,24 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
             textValue = base.findViewById(textValueId);
             this.mode = mode;
             this.base = base;
-
-            seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            seekBar.addOnChangeListener((slider, value, fromUser) -> {
+                textValue.setText(getDescriptionFromIndex((int) value));
+                base.setTitle(getDescriptionFromIndex((int) value));
+            });
+            seekBar.addOnSliderTouchListener(new Slider.OnSliderTouchListener() {
                 @Override
-                public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                    textValue.setText(getDescriptionFromIndex(progress));
-                    base.setTitle(getDescriptionFromIndex(progress));
+                public void onStartTrackingTouch(@NonNull Slider slider) {
+
                 }
-                @Override public void onStartTrackingTouch(SeekBar seekBar) {
-                }
-                @Override public void onStopTrackingTouch(SeekBar seekBar) {
+
+                @Override
+                public void onStopTrackingTouch(@NonNull Slider slider) {
                     base.setTitle(R.string.settings_seen_on_timeout_title);
                 }
             });
-            seekBar.setMax(VALUES.length - 1);
-            seekBar.setProgress(getIndexFromValue(settings.getSeenTimeout(mode)), false);
-            textValue.setText(getDescriptionFromIndex(seekBar.getProgress()));
+            seekBar.setValueTo(VALUES.length - 1);
+            seekBar.setValue(getIndexFromValue(settings.getSeenTimeout(mode)));
+            textValue.setText(getDescriptionFromIndex((int) seekBar.getValue()));
             base.setTitle(R.string.settings_seen_on_timeout_title);
         }
 
@@ -233,7 +238,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
         }
 
         public int getValue() {
-            return getValueFromIndex(seekBar.getProgress());
+            return getValueFromIndex((int) seekBar.getValue());
         }
 
         public String getDescriptionFromIndex(int index) {
@@ -276,7 +281,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
     }
 
     private class TimeoutLingerHelper extends TimeoutHelper {
-        private final SeekBar seekBar;
+        private final Slider seekBar;
         private final TextView textValue;
         private AlertDialog base;
 
@@ -285,22 +290,24 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
             seekBar = base.findViewById(seekBarId);
             textValue = base.findViewById(textValueId);
             this.base = base;
-
-            seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            seekBar.addOnChangeListener((slider, value, fromUser) -> {
+                textValue.setText(getDescriptionFromIndex((int) value));
+                base.setTitle(getDescriptionFromIndex((int) value));
+            });
+            seekBar.addOnSliderTouchListener(new Slider.OnSliderTouchListener() {
                 @Override
-                public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                    textValue.setText(getDescriptionFromIndex(progress));
-                    base.setTitle(getDescriptionFromIndex(progress));
+                public void onStartTrackingTouch(@NonNull Slider slider) {
+
                 }
-                @Override public void onStartTrackingTouch(SeekBar seekBar) {
-                }
-                @Override public void onStopTrackingTouch(SeekBar seekBar) {
+
+                @Override
+                public void onStopTrackingTouch(@NonNull Slider slider) {
                     base.setTitle(R.string.settings_animation_overlay_linger_title);
                 }
             });
-            seekBar.setMax(20);
-            seekBar.setProgress(getIndexFromValue(settings.getOverlayLinger()), false);
-            textValue.setText(getDescriptionFromIndex(seekBar.getProgress()));
+            seekBar.setValueTo(20);
+            seekBar.setValue(getIndexFromValue(settings.getOverlayLinger()));
+            textValue.setText(getDescriptionFromIndex((int) seekBar.getValue()));
             base.setTitle(R.string.settings_animation_overlay_linger_title);
         }
 
@@ -313,7 +320,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
         }
 
         public int getValue() {
-            return getValueFromIndex(seekBar.getProgress());
+            return getValueFromIndex((int) seekBar.getValue());
         }
 
         public String getDescriptionFromIndex(int index) {
@@ -342,12 +349,12 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
     private ListPreference getLocalesPreference(PreferenceCategory category) {
         ArrayList<String> locales = new ArrayList<>();
 
-        AssetManager assetManager = getActivity().getAssets();
+        AssetManager assetManager = requireActivity().getAssets();
         String[] assetLocales = assetManager.getLocales();
         for (String s : assetLocales) {
             String lang = s.replace("-", "_");
 
-            boolean found = BuildConfig.TRANSLATION_ARRAY.length == 0;
+            boolean found = false;
             for (String match : BuildConfig.TRANSLATION_ARRAY) {
                 found = match.replace("-", "_").equals(lang);
                 if (found) break;
@@ -388,11 +395,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
                     right_locale = new Locale(right_lang);
                 }
 
-                if ((left_locale != null) && (right_locale != null)) {
-                    return left_locale.getDisplayName().compareTo(right_locale.getDisplayName());
-                } else {
-                    return 0;
-                }
+                return left_locale.getDisplayName().compareTo(right_locale.getDisplayName());
             } else {
                 return 0;
             }

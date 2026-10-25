@@ -13,7 +13,7 @@
         android:layout_margin="16dp"
         android:maxLines="1"
         android:textStyle="bold"
-        android:textColor="@color/colorAccent"
+        android:textColor="?colorPrimary"
         android:textAppearance="?attr/textAppearanceListItem"
         android:ellipsize="end"
         android:clickable="false" />
