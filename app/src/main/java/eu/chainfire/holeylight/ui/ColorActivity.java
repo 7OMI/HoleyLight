@@ -414,7 +414,7 @@ public class ColorActivity extends BaseActivity {
                     }
 
                     List<AppItem> target = found != null ? activeItems : inactiveItems;
-                    ApplicationInfo info = pm.getApplicationInfo(packageColor.packageName, 0);
+                    ApplicationInfo info = pm.getApplicationInfo(packageColor.packageName, PackageManager.MATCH_UNINSTALLED_PACKAGES);
                     target.add(new AppItem(
                             getLabel(pm, info),
                             packageColor.packageName,

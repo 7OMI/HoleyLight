@@ -24,7 +24,9 @@ public class ColorAnalyzer {
             boolean adjust = false;
             try {
                 PackageManager pm = context.getPackageManager();
-                ApplicationInfo info = pm.getApplicationInfo(packageName, 0);
+
+                // This flag allows to query apps on the work profile as well
+                ApplicationInfo info = pm.getApplicationInfo(packageName, PackageManager.MATCH_UNINSTALLED_PACKAGES);
                 if (!packageName.equals(BuildConfig.APPLICATION_ID) && (info.flags & (ApplicationInfo.FLAG_SYSTEM | ApplicationInfo.FLAG_UPDATED_SYSTEM_APP)) == 0) {
                     // Average color from icon
                     adjust = true;
@@ -71,6 +73,7 @@ public class ColorAnalyzer {
                 hsv[2] = 1.0f;
                 color = Color.HSVToColor(255, hsv);
             }
+            colorMap.put(packageName, color);
         } else {
             color = cached;
         }

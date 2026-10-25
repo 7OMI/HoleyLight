@@ -37,6 +37,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.Process;
 import android.os.UserHandle;
+import android.os.UserManager;
 import android.service.notification.StatusBarNotification;
 import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
@@ -469,7 +470,16 @@ public class NotificationListenerService extends android.service.notification.No
                 if (not.getChannelId() != null) {
                     channelName = sanitizeChannelId(not.getChannelId());
 
-                    List<NotificationChannel> chans = getNotificationChannels(sbn.getPackageName(), Process.myUserHandle());
+                    // Get a list of all users (to read Work Profile notifications)
+                    final UserManager um = (UserManager) getBaseContext().getSystemService(Context.USER_SERVICE);
+                    List<UserHandle> list = um.getUserProfiles();
+
+                    // Flatten a list of everything available
+                    List<NotificationChannel> chans = new ArrayList<>();
+                    for (UserHandle userHandle : list) {
+                        chans.addAll(getNotificationChannels(sbn.getPackageName(), userHandle));
+                    }
+
                     for (NotificationChannel chan : chans) {
                         if (chan.getId().equals(not.getChannelId())) {
                             if (Build.VERSION.SDK_INT >= 29) {
