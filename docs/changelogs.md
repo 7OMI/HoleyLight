@@ -1,3 +1,13 @@
+**2022.11.18 - v1.02**
+- (c) 2022
+- Compatibility
+    - Change AOD placement algorithm for Samsung Android 13 / One UI 5
+
+NOTICE: Changes in the accessibility service have caused massive
+changes in the overlay placement detection. It is expected this breaks
+for several devices and those will have to be re-tested and debugged.
+
+
 **2021.03.02 - v1.00** - [RELEASE NOTES](./notes_100.md)
 - (c) 2021
 - Compatibility
