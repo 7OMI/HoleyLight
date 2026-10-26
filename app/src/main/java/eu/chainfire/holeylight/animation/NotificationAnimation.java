@@ -46,6 +46,8 @@ import eu.chainfire.holeylight.misc.Slog;
 public class NotificationAnimation implements Settings.OnSettingsChangedListener {
     public static volatile Boolean test_lastHideAOD = null;
 
+    private final Context context;
+
     private static final CameraCutout.Cutout OVERRIDE_CUTOUT = null; //CameraCutout.CUTOUT_S10PLUS;
     private static final String OVERRIDE_DEVICE = null; //"beyond2";
 
@@ -150,6 +152,7 @@ public class NotificationAnimation implements Settings.OnSettingsChangedListener
     private volatile float currentDpAddThickness = 0;
 
     public NotificationAnimation(Context context, SpritePlayer spritePlayer, float densityMultiplier, OnNotificationAnimationListener onNotificationAnimationListener) {
+        this.context = context;
         this.onNotificationAnimationListener = onNotificationAnimationListener;
         settings = Settings.getInstance(context);
         cameraCutout = new CameraCutout(context);
@@ -272,7 +275,7 @@ public class NotificationAnimation implements Settings.OnSettingsChangedListener
 
     private void loadJson() {
         // not adjusted for density but shouldn't be important here
-        float dpToPx = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 1, spritePlayer.getContext().getResources().getDisplayMetrics());
+        float dpToPx = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 1, context.getResources().getDisplayMetrics());
 
         currentDpAddThickness = getDpAddThickness();
         LottieCompositionFactory.fromJsonString(JSONAnimationManipulator.modify(spec.json, currentDpAddThickness * dpToPx), null).addListener(result -> {
@@ -326,6 +329,91 @@ public class NotificationAnimation implements Settings.OnSettingsChangedListener
             }
         }
     }
+
+
+    public float[] getTuningShiftBoundsDp() {
+        synchronized (getSynchronizer()) {
+            float dpToPx = TypedValue.applyDimension(
+                    TypedValue.COMPLEX_UNIT_DIP,
+                    1,
+                    context.getResources().getDisplayMetrics()
+            ) * densityMultiplier;
+
+            if (dpToPx <= 0.0f) {
+                return null;
+            }
+
+            Point resolution = cameraCutout.getCurrentResolution();
+
+            if (resolution.x <= 0 || resolution.y <= 0) {
+                return null;
+            }
+
+            float centerX;
+            float centerY;
+
+            if (viDirector != null) {
+                Rect r;
+
+                if (viDirector2 != null
+                        && Fold.isFolded(
+                                viDirector.getScreenWidth(),
+                                viDirector.getScreenHeight())) {
+                    r = viDirector2.getVIViewLocation();
+                } else {
+                    r = viDirector.getVIViewLocation();
+                }
+
+                if (r == null || r.isEmpty()) {
+                    return null;
+                }
+
+                centerX = r.exactCenterX();
+                centerY = r.exactCenterY();
+            } else {
+                RectF savedRect = settings.getCutoutAreaRect();
+
+                if (savedRect.width() > 0.0f
+                        && savedRect.height() > 0.0f
+                        && savedRect.left >= 0.0f
+                        && savedRect.top >= 0.0f
+                        && savedRect.right <= resolution.x
+                        && savedRect.bottom <= resolution.y) {
+                    centerX = savedRect.centerX();
+                    centerY = savedRect.centerY();
+                } else if (cameraCutout.isValid()
+                        && cameraCutout.getCutout() != null) {
+                    Rect cutoutRect = cameraCutout.getCutout().getArea();
+
+                    if (cutoutRect.isEmpty()) {
+                        return null;
+                    }
+
+                    centerX = cutoutRect.exactCenterX();
+                    centerY = cutoutRect.exactCenterY();
+                } else {
+                    return null;
+                }
+            }
+
+            int rotation = ((WindowManager) context.getSystemService(
+                    Context.WINDOW_SERVICE
+            )).getDefaultDisplay().getRotation();
+
+            if (rotation == 2) {
+                centerX = resolution.x - centerX;
+                centerY = resolution.y - centerY;
+            }
+
+            float left = -centerX / dpToPx;
+            float right = (resolution.x - centerX) / dpToPx;
+            float top = -centerY / dpToPx;
+            float bottom = (resolution.y - centerY) / dpToPx;
+
+            return new float[] { left, right, top, bottom };
+        }
+    }
+
 
     public void updateFromInsets(WindowInsetsCompat insets) {
         synchronized (getSynchronizer()) {
@@ -418,8 +506,8 @@ public class NotificationAnimation implements Settings.OnSettingsChangedListener
 
                         float addVertical = (getDpAddScaleBase() + getDpAdd()) * realDpToPx;
                         float addHorizontal = (addVertical * ((float)b.width() / (float)b.height())) + (getDpAddScaleHorizontal() * realDpToPx);
-                        float scaledWidth = width + addHorizontal;
-                        float scaledHeight = height + addVertical;
+                        float scaledWidth = Math.max(1.0f, width + addHorizontal);
+                        float scaledHeight = Math.max(1.0f, height + addVertical);
                         left -= (scaledWidth - width) / 2.0f;
                         top -= (scaledHeight - height) / 2.0f;
                         width = scaledWidth;
@@ -438,7 +526,11 @@ public class NotificationAnimation implements Settings.OnSettingsChangedListener
                             RectF r = cameraCutout.getCutout().getAreaF();
                             Rect b = lottieComposition.getBounds();
 
-                            r.right = r.left + r.height() * ((float)b.width()/(float)b.height());
+                            float centerX = r.centerX();
+                            float newWidth = r.height() * ((float) b.width() / (float) b.height());
+
+                            r.left = centerX - newWidth / 2.0f;
+                            r.right = centerX + newWidth / 2.0f;
 
                             height = (b.height() / lottieDpToPx);
                             width = (b.width() / lottieDpToPx);
@@ -447,8 +539,8 @@ public class NotificationAnimation implements Settings.OnSettingsChangedListener
 
                             float addVertical = (getDpAddScaleBase() + getDpAdd()) * realDpToPx;
                             float addHorizontal = (addVertical * ((float)b.width() / (float)b.height())) + (getDpAddScaleHorizontal() * realDpToPx);
-                            float scaledWidth = width + addHorizontal;
-                            float scaledHeight = height + addVertical;
+                            float scaledWidth = Math.max(1.0f, width + addHorizontal);
+                            float scaledHeight = Math.max(1.0f, height + addVertical);
                             left -= (scaledWidth - width) / 2.0f;
                             top -= (scaledHeight - height) / 2.0f;
                             width = scaledWidth;
@@ -473,8 +565,8 @@ public class NotificationAnimation implements Settings.OnSettingsChangedListener
                             // they'd work perfectly out of the box, but oh no...
                             float addVertical = (getDpAddScaleBase() + getDpAdd()) * realDpToPx;
                             float addHorizontal = (addVertical * ((float)b.width() / (float)b.height())) + (getDpAddScaleHorizontal() * realDpToPx);
-                            float scaledWidth = width + addHorizontal;
-                            float scaledHeight = height + addVertical;
+                            float scaledWidth = Math.max(1.0f, width + addHorizontal);
+                            float scaledHeight = Math.max(1.0f, height + addVertical);
                             left -= (scaledWidth - width) / 2.0f;
                             top -= (scaledHeight - height) / 2.0f;
                             width = scaledWidth;

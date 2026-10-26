@@ -2,6 +2,7 @@
 
     <style name="AppTheme" parent="Theme.Material3.DynamicColors.DayNight">
         <item name="android:windowContentTransitions">true</item>
+        <item name="android:statusBarColor">?android:attr/colorBackground</item>
     </style>
 
     <style name="AppThemeFullscreen" parent="@style/AppTheme">

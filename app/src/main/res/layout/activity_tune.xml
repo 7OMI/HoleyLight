@@ -6,6 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/activity_layout"
+    android:background="?android:attr/windowBackground"
     tools:context=".ui.TuneActivity">
     
     <TextView
@@ -17,206 +18,93 @@
         android:layout_marginTop="16dp"
         android:text="@string/tune_notice"
         android:gravity="center"
+        android:textColor="?android:attr/textColorPrimary"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintRight_toRightOf="parent" />
 
-    <Button
-        style="@style/Widget.Material3.Button.TextButton"
-        android:id="@+id/btnAddScaleBaseMinus"
-        android:layout_width="48dp"
-        android:layout_height="wrap_content"
-        android:text="@string/minus"
-        android:layout_marginStart="16dp"
+    <TextView android:id="@+id/tvAddScaleBase" android:layout_width="0dp" android:layout_height="0dp" android:visibility="gone" app:layout_constraintTop_toTopOf="parent" app:layout_constraintLeft_toLeftOf="parent" />
+    <TextView android:id="@+id/tvAddScaleHorizontal" android:layout_width="0dp" android:layout_height="0dp" android:visibility="gone" app:layout_constraintTop_toTopOf="parent" app:layout_constraintLeft_toLeftOf="parent" />
+    <TextView android:id="@+id/tvShiftVertical" android:layout_width="0dp" android:layout_height="0dp" android:visibility="gone" app:layout_constraintTop_toTopOf="parent" app:layout_constraintLeft_toLeftOf="parent" />
+    <TextView android:id="@+id/tvShiftHorizontal" android:layout_width="0dp" android:layout_height="0dp" android:visibility="gone" app:layout_constraintTop_toTopOf="parent" app:layout_constraintLeft_toLeftOf="parent" />
+    <TextView android:id="@+id/tvAddThickness" android:layout_width="0dp" android:layout_height="0dp" android:visibility="gone" app:layout_constraintTop_toTopOf="parent" app:layout_constraintLeft_toLeftOf="parent" />
+    <TextView android:id="@+id/tvSpeed" android:layout_width="0dp" android:layout_height="0dp" android:visibility="gone" app:layout_constraintTop_toTopOf="parent" app:layout_constraintLeft_toLeftOf="parent" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
         android:layout_marginTop="16dp"
-        android:onClick="btnClick"
         app:layout_constraintTop_toBottomOf="@id/tvNotice"
-        app:layout_constraintLeft_toLeftOf="parent" />
-
-    <TextView
-        android:id="@+id/tvAddScaleBase"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text=""
-        android:layout_marginTop="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="@id/btnAddScaleBaseMinus" />
+        app:layout_constraintRight_toRightOf="parent">
 
-    <Button
-        style="@style/Widget.Material3.Button.TextButton"
-        android:id="@+id/btnAddScaleBasePlus"
-        android:layout_width="48dp"
-        android:layout_height="wrap_content"
-        android:text="@string/plus"
-        android:layout_marginEnd="16dp"
-        android:onClick="btnClick"
-        app:layout_constraintTop_toTopOf="@id/btnAddScaleBaseMinus"
-        app:layout_constraintRight_toRightOf="parent" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
 
-    <Button
-        style="@style/Widget.Material3.Button.TextButton"
-        android:id="@+id/btnAddScaleHorizontalMinus"
-        android:layout_width="48dp"
-        android:layout_height="wrap_content"
-        android:text="@string/minus"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:onClick="btnClick"
-        app:layout_constraintTop_toBottomOf="@id/btnAddScaleBaseMinus"
-        app:layout_constraintLeft_toLeftOf="parent" />
+            <!-- ROW 1: Scale Base -->
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Scale Base" android:textStyle="bold" android:textColor="?android:attr/textColorPrimary" />
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:gravity="center_vertical" android:layout_marginBottom="16dp">
+                <Button style="@style/Widget.Material3.Button.TextButton" app:backgroundTint="?attr/colorPrimary" android:textColor="?attr/colorOnPrimary" android:id="@+id/btnAddScaleBaseMinus" android:layout_width="48dp" android:layout_height="wrap_content" android:text="@string/minus" android:onClick="btnClick" />
+                <com.google.android.material.slider.Slider android:id="@+id/sliderScaleBase" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" />
+                <Button style="@style/Widget.Material3.Button.TextButton" app:backgroundTint="?attr/colorPrimary" android:textColor="?attr/colorOnPrimary" android:id="@+id/btnAddScaleBasePlus" android:layout_width="48dp" android:layout_height="wrap_content" android:text="@string/plus" android:onClick="btnClick" />
+                <EditText android:id="@+id/inputScaleBase" android:layout_width="60dp" android:layout_height="wrap_content" android:inputType="numberDecimal|numberSigned" android:gravity="center" android:textColor="?android:attr/textColorPrimary" />
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:minWidth="32dp" android:text=" dp" android:textColor="?android:attr/textColorPrimary" />
+            </LinearLayout>
 
-    <TextView
-        android:id="@+id/tvAddScaleHorizontal"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text=""
-        android:layout_marginTop="16dp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="@id/btnAddScaleHorizontalMinus" />
+            <!-- ROW 2: Scale Horizontal -->
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Scale Horizontal" android:textStyle="bold" android:textColor="?android:attr/textColorPrimary" />
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:gravity="center_vertical" android:layout_marginBottom="16dp">
+                <Button style="@style/Widget.Material3.Button.TextButton" app:backgroundTint="?attr/colorPrimary" android:textColor="?attr/colorOnPrimary" android:id="@+id/btnAddScaleHorizontalMinus" android:layout_width="48dp" android:layout_height="wrap_content" android:text="@string/minus" android:onClick="btnClick" />
+                <com.google.android.material.slider.Slider android:id="@+id/sliderScaleHorizontal" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" />
+                <Button style="@style/Widget.Material3.Button.TextButton" app:backgroundTint="?attr/colorPrimary" android:textColor="?attr/colorOnPrimary" android:id="@+id/btnAddScaleHorizontalPlus" android:layout_width="48dp" android:layout_height="wrap_content" android:text="@string/plus" android:onClick="btnClick" />
+                <EditText android:id="@+id/inputScaleHorizontal" android:layout_width="60dp" android:layout_height="wrap_content" android:inputType="numberDecimal|numberSigned" android:gravity="center" android:textColor="?android:attr/textColorPrimary" />
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:minWidth="32dp" android:text=" dp" android:textColor="?android:attr/textColorPrimary" />
+            </LinearLayout>
 
-    <Button
-        style="@style/Widget.Material3.Button.TextButton"
-        android:id="@+id/btnAddScaleHorizontalPlus"
-        android:layout_width="48dp"
-        android:layout_height="wrap_content"
-        android:text="@string/plus"
-        android:layout_marginEnd="16dp"
-        android:onClick="btnClick"
-        app:layout_constraintTop_toTopOf="@id/btnAddScaleHorizontalMinus"
-        app:layout_constraintRight_toRightOf="parent" />
+            <!-- ROW 3: Shift Vertical -->
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Shift Vertical" android:textStyle="bold" android:textColor="?android:attr/textColorPrimary" />
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:gravity="center_vertical" android:layout_marginBottom="16dp">
+                <Button style="@style/Widget.Material3.Button.TextButton" app:backgroundTint="?attr/colorPrimary" android:textColor="?attr/colorOnPrimary" android:id="@+id/btnShiftVerticalMinus" android:layout_width="48dp" android:layout_height="wrap_content" android:text="@string/minus" android:onClick="btnClick" />
+                <com.google.android.material.slider.Slider android:id="@+id/sliderShiftVertical" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" />
+                <Button style="@style/Widget.Material3.Button.TextButton" app:backgroundTint="?attr/colorPrimary" android:textColor="?attr/colorOnPrimary" android:id="@+id/btnShiftVerticalPlus" android:layout_width="48dp" android:layout_height="wrap_content" android:text="@string/plus" android:onClick="btnClick" />
+                <EditText android:id="@+id/inputShiftVertical" android:layout_width="60dp" android:layout_height="wrap_content" android:inputType="numberDecimal|numberSigned" android:gravity="center" android:textColor="?android:attr/textColorPrimary" />
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:minWidth="32dp" android:text=" dp" android:textColor="?android:attr/textColorPrimary" />
+            </LinearLayout>
 
-    <Button
-        style="@style/Widget.Material3.Button.TextButton"
-        android:id="@+id/btnShiftVerticalMinus"
-        android:layout_width="48dp"
-        android:layout_height="wrap_content"
-        android:text="@string/minus"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:onClick="btnClick"
-        app:layout_constraintTop_toBottomOf="@id/btnAddScaleHorizontalMinus"
-        app:layout_constraintLeft_toLeftOf="parent" />
+            <!-- ROW 4: Shift Horizontal -->
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Shift Horizontal" android:textStyle="bold" android:textColor="?android:attr/textColorPrimary" />
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:gravity="center_vertical" android:layout_marginBottom="16dp">
+                <Button style="@style/Widget.Material3.Button.TextButton" app:backgroundTint="?attr/colorPrimary" android:textColor="?attr/colorOnPrimary" android:id="@+id/btnShiftHorizontalMinus" android:layout_width="48dp" android:layout_height="wrap_content" android:text="@string/minus" android:onClick="btnClick" />
+                <com.google.android.material.slider.Slider android:id="@+id/sliderShiftHorizontal" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" />
+                <Button style="@style/Widget.Material3.Button.TextButton" app:backgroundTint="?attr/colorPrimary" android:textColor="?attr/colorOnPrimary" android:id="@+id/btnShiftHorizontalPlus" android:layout_width="48dp" android:layout_height="wrap_content" android:text="@string/plus" android:onClick="btnClick" />
+                <EditText android:id="@+id/inputShiftHorizontal" android:layout_width="60dp" android:layout_height="wrap_content" android:inputType="numberDecimal|numberSigned" android:gravity="center" android:textColor="?android:attr/textColorPrimary" />
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:minWidth="32dp" android:text=" dp" android:textColor="?android:attr/textColorPrimary" />
+            </LinearLayout>
 
-    <TextView
-        android:id="@+id/tvShiftVertical"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text=""
-        android:layout_marginTop="16dp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="@id/btnShiftVerticalMinus" />
+            <!-- ROW 5: Thickness -->
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Thickness" android:textStyle="bold" android:textColor="?android:attr/textColorPrimary" />
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:gravity="center_vertical" android:layout_marginBottom="16dp">
+                <Button style="@style/Widget.Material3.Button.TextButton" app:backgroundTint="?attr/colorPrimary" android:textColor="?attr/colorOnPrimary" android:id="@+id/btnAddThicknessMinus" android:layout_width="48dp" android:layout_height="wrap_content" android:text="@string/minus" android:onClick="btnClick" />
+                <com.google.android.material.slider.Slider android:id="@+id/sliderThickness" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" />
+                <Button style="@style/Widget.Material3.Button.TextButton" app:backgroundTint="?attr/colorPrimary" android:textColor="?attr/colorOnPrimary" android:id="@+id/btnAddThicknessPlus" android:layout_width="48dp" android:layout_height="wrap_content" android:text="@string/plus" android:onClick="btnClick" />
+                <EditText android:id="@+id/inputThickness" android:layout_width="60dp" android:layout_height="wrap_content" android:inputType="numberDecimal" android:gravity="center" android:textColor="?android:attr/textColorPrimary" />
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:minWidth="32dp" android:text=" dp" android:textColor="?android:attr/textColorPrimary" />
+            </LinearLayout>
 
-    <Button
-        style="@style/Widget.Material3.Button.TextButton"
-        android:id="@+id/btnShiftVerticalPlus"
-        android:layout_width="48dp"
-        android:layout_height="wrap_content"
-        android:text="@string/plus"
-        android:layout_marginEnd="16dp"
-        android:onClick="btnClick"
-        app:layout_constraintTop_toTopOf="@id/btnShiftVerticalMinus"
-        app:layout_constraintRight_toRightOf="parent" />
+            <!-- ROW 6: Speed -->
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Speed" android:textStyle="bold" android:textColor="?android:attr/textColorPrimary" />
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:gravity="center_vertical" android:layout_marginBottom="16dp">
+                <Button style="@style/Widget.Material3.Button.TextButton" app:backgroundTint="?attr/colorPrimary" android:textColor="?attr/colorOnPrimary" android:id="@+id/btnSpeedMinus" android:layout_width="48dp" android:layout_height="wrap_content" android:text="@string/minus" android:onClick="btnClick" />
+                <com.google.android.material.slider.Slider android:id="@+id/sliderSpeed" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" />
+                <Button style="@style/Widget.Material3.Button.TextButton" app:backgroundTint="?attr/colorPrimary" android:textColor="?attr/colorOnPrimary" android:id="@+id/btnSpeedPlus" android:layout_width="48dp" android:layout_height="wrap_content" android:text="@string/plus" android:onClick="btnClick" />
+                <EditText android:id="@+id/inputSpeed" android:layout_width="60dp" android:layout_height="wrap_content" android:inputType="numberDecimal" android:gravity="center" android:textColor="?android:attr/textColorPrimary" />
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:minWidth="32dp" android:text=" x" android:textColor="?android:attr/textColorPrimary" />
+            </LinearLayout>
 
-    <Button
-        style="@style/Widget.Material3.Button.TextButton"
-        android:id="@+id/btnShiftHorizontalMinus"
-        android:layout_width="48dp"
-        android:layout_height="wrap_content"
-        android:text="@string/minus"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:onClick="btnClick"
-        app:layout_constraintTop_toBottomOf="@id/btnShiftVerticalMinus"
-        app:layout_constraintLeft_toLeftOf="parent" />
-
-    <TextView
-        android:id="@+id/tvShiftHorizontal"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text=""
-        android:layout_marginTop="16dp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="@id/btnShiftHorizontalMinus" />
-
-    <Button
-        style="@style/Widget.Material3.Button.TextButton"
-        android:id="@+id/btnShiftHorizontalPlus"
-        android:layout_width="48dp"
-        android:layout_height="wrap_content"
-        android:text="@string/plus"
-        android:layout_marginEnd="16dp"
-        android:onClick="btnClick"
-        app:layout_constraintTop_toTopOf="@id/btnShiftHorizontalMinus"
-        app:layout_constraintRight_toRightOf="parent" />
-
-    <Button
-        style="@style/Widget.Material3.Button.TextButton"
-        android:id="@+id/btnAddThicknessMinus"
-        android:layout_width="48dp"
-        android:layout_height="wrap_content"
-        android:text="@string/minus"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:onClick="btnClick"
-        app:layout_constraintTop_toBottomOf="@id/btnShiftHorizontalMinus"
-        app:layout_constraintLeft_toLeftOf="parent" />
-
-    <TextView
-        android:id="@+id/tvAddThickness"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text=""
-        android:layout_marginTop="16dp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="@id/btnAddThicknessMinus" />
-
-    <Button
-        style="@style/Widget.Material3.Button.TextButton"
-        android:id="@+id/btnAddThicknessPlus"
-        android:layout_width="48dp"
-        android:layout_height="wrap_content"
-        android:text="@string/plus"
-        android:layout_marginEnd="16dp"
-        android:onClick="btnClick"
-        app:layout_constraintTop_toTopOf="@id/btnAddThicknessMinus"
-        app:layout_constraintRight_toRightOf="parent" />
-
-    <Button
-        style="@style/Widget.Material3.Button.TextButton"
-        android:id="@+id/btnSpeedMinus"
-        android:layout_width="48dp"
-        android:layout_height="wrap_content"
-        android:text="@string/minus"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:onClick="btnClick"
-        app:layout_constraintTop_toBottomOf="@id/btnAddThicknessMinus"
-        app:layout_constraintLeft_toLeftOf="parent" />
-
-    <TextView
-        android:id="@+id/tvSpeed"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text=""
-        android:layout_marginTop="16dp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="@id/btnSpeedMinus" />
-
-    <Button
-        style="@style/Widget.Material3.Button.TextButton"
-        android:id="@+id/btnSpeedPlus"
-        android:layout_width="48dp"
-        android:layout_height="wrap_content"
-        android:text="@string/plus"
-        android:layout_marginEnd="16dp"
-        android:onClick="btnClick"
-        app:layout_constraintTop_toTopOf="@id/btnSpeedMinus"
-        app:layout_constraintRight_toRightOf="parent" />
-
+        </LinearLayout>
+    </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>
