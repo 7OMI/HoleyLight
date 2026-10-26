@@ -33,3 +33,5 @@ output.json
 #NDK
 obj/
 .externalNativeBuild
+**/proguard/
+mapping.txt
