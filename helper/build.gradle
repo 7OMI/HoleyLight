@@ -4,7 +4,7 @@ android {
     namespace 'eu.chainfire.holeylight.aodhelper'
     compileSdk 33
     defaultConfig {
-        applicationId "eu.chainfire.holeylight.aodhelper"
+        applicationId "eu.chainfire.holeylight.aodhelper.dev"
         minSdkVersion 22
         targetSdk 33
         versionCode 54

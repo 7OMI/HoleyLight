@@ -4,11 +4,11 @@ android {
     namespace 'eu.chainfire.holeylight'
     compileSdk 33
     defaultConfig {
-        applicationId "eu.chainfire.holeylight"
+        applicationId "eu.chainfire.holeylight.dev"
         minSdkVersion 28
         targetSdk 33
-        versionCode 102
-        versionName "1.02"
+        versionCode 110
+        versionName "1.10"
     }
     buildTypes {
         release {
