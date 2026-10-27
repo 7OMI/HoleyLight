@@ -4,26 +4,51 @@ android {
     namespace 'eu.chainfire.holeylight'
     compileSdk 33
     defaultConfig {
-        applicationId "eu.chainfire.holeylight.dev"
+        applicationId "eu.chainfire.holeylight"
         minSdkVersion 28
         targetSdk 33
         versionCode 110
         versionName "1.10"
     }
+
+    flavorDimensions "environment"
+
+    productFlavors {
+        dev {
+            dimension "environment"
+            applicationId "eu.chainfire.holeylight.dev"
+            resValue "string", "app_name", "Holey Light DEV"
+        }
+
+        prod {
+            dimension "environment"
+            applicationId "eu.chainfire.holeylight"
+            resValue "string", "app_name", "Holey Light"
+        }
+    }
+
     buildTypes {
         release {
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
+    buildFeatures {
+        buildConfig true
+    }
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
     applicationVariants.all { variant ->
         variant.outputs.all { output ->
+            if (variant.buildType.name == 'debug') {
+                outputFileName = "HoleyLight-${variant.flavorName}_v${android.defaultConfig.versionName}-${new Date().format('yyyyMMddHHmmss')}.apk"
+            }
             if (variant.buildType.name == 'release') {
-                outputFileName = "HoleyLight" + "-v" + android.defaultConfig.versionName + "-" + (new Date()).format('yyyyMMddHHmmss') + ".apk"
+                outputFileName = "HoleyLight" + "_v" + android.defaultConfig.versionName + "-" + (new Date()).format('yyyyMMddHHmmss') + ".apk"
                 variant.getAssembleProvider().configure() {
                     it.doLast {
                         copy {

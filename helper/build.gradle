@@ -4,22 +4,47 @@ android {
     namespace 'eu.chainfire.holeylight.aodhelper'
     compileSdk 33
     defaultConfig {
-        applicationId "eu.chainfire.holeylight.aodhelper.dev"
+        applicationId "eu.chainfire.holeylight.aodhelper"
         minSdkVersion 22
         targetSdk 33
         versionCode 54
         versionName "0.54"
     }
+
+    flavorDimensions "environment"
+
+    productFlavors {
+        dev {
+            dimension "environment"
+            applicationId "eu.chainfire.holeylight.aodhelper.dev"
+            resValue "string", "app_name", "Holey Light AOD Helper DEV"
+        }
+
+        prod {
+            dimension "environment"
+            applicationId "eu.chainfire.holeylight.aodhelper"
+            resValue "string", "app_name", "Holey Light AOD Helper"
+        }
+    }
+
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+
+    buildFeatures {
+        buildConfig true
+    }
+
     applicationVariants.all { variant ->
         variant.outputs.all { output ->
+            if (variant.buildType.name == 'debug') {
+                outputFileName = "HoleyLight-AODHelper-${variant.flavorName}_v${android.defaultConfig.versionName}-${new Date().format('yyyyMMddHHmmss')}.apk"
+            }
             if (variant.buildType.name == 'release') {
-                outputFileName = "HoleyLight-AODHelper" + "-v" + android.defaultConfig.versionName + "-" + (new Date()).format('yyyyMMddHHmmss') + ".apk"
+                outputFileName = "HoleyLight-AODHelper" + "_v" + android.defaultConfig.versionName + "-" + (new Date()).format('yyyyMMddHHmmss') + ".apk"
                 variant.getAssembleProvider().configure() {
                     it.doLast {
                         copy {

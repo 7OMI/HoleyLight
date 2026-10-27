@@ -48,7 +48,7 @@
 Twitter: @ChainfireXDA
 Forrás: github.com/Chainfire/HoleyLight
 XDA téma megtekintése"</string>
-    <string name="app_name">Holey Light HU</string>
+    <!-- <string name="app_name">Holey Light HU</string> -->
     <string name="battery_screen_off">Akku: Képernyő ki</string>
     <string name="battery_screen_on">Akku: Képernyő be</string>
     <string name="charging_screen_off">Töltés: Képernyő ki</string>

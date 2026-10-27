@@ -3,7 +3,7 @@
     <!-- entries marked obsolete are no longer used and should not be translated,
          entries with 'translatable="false"' also need no translation. -->
 
-    <string translatable="false" name="app_name">Holey Light</string>
+    <!-- <string translatable="false" name="app_name">Holey Light</string> -->
     <string translatable="false" name="app_details">Copyright © 2019-2022 – Chainfire\nTwitter: @ChainfireXDA\nSources: github.com/Chainfire/HoleyLight\nTap to visit XDA thread</string>
     <string translatable="false" name="app_website_url">https://forum.xda-developers.com/galaxy-s10/themes/app-holey-light-t3917675</string>
 
